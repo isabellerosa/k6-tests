@@ -47,15 +47,19 @@ A integração com o Grafana faz uso do InfluxDB, um banco de dados de séries d
     docker-compose up -d grafana influxdb
     ```
 
-    > Para ver os dados em tempo real, é necessário configuração no Grafana. A própria [doc](https://k6.io/docs/results-visualization/influxdb-+-grafana/#preconfigured-grafana-dashboards) disponibiliza links para alguns dashboards já prontos. Teste com o dashboard [10660](https://grafana.com/grafana/dashboards/10660) ou [2587](https://grafana.com/grafana/dashboards/2587)
+2. Configure o datasource no Grafana em `Configuration > Data Sources > Add data source` com valores
 
-2. Rode o script de teste
+    ![Influx](assets/influx_config.png)
+
+3. Crie ou importe um dashboard para os testes com K6. A própria [doc](https://k6.io/docs/results-visualization/influxdb-+-grafana/#preconfigured-grafana-dashboards) disponibiliza links para alguns dashboards já prontos. Teste com o dashboard [10660](https://grafana.com/grafana/dashboards/10660) ou [2587](https://grafana.com/grafana/dashboards/2587)
+
+4. Rode o script de teste
 
     ```bash
     docker-compose up k6
     ```
 
-3. (Opcional) Caso deseje ver os dados do influxdb num dashboard, rode o Chronograf
+5. (Opcional) Caso deseje ver os dados do influxdb num dashboard, rode o Chronograf
 
     ```bash
     docker-compose up -d chronograf
