@@ -37,6 +37,30 @@ ou
 docker run -v "$(pwd)":/test -i loadimpact/k6 run /test/script.js
 ```
 
+## Integração com o Grafana
+
+A integração com o Grafana faz uso do InfluxDB, um banco de dados de séries de temporais (por enquanto, não é possível utilizar o Prometheus no lugar do influxdb).
+
+1. Rode o Grafana e o InfluxDB
+
+    ```bash
+    docker-compose up -d grafana influxdb
+    ```
+
+    > Para ver os dados em tempo real, é necessário configuração no Grafana. A própria [doc](https://k6.io/docs/results-visualization/influxdb-+-grafana/#preconfigured-grafana-dashboards) disponibiliza links para alguns dashboards já prontos. Teste com o dashboard [10660](https://grafana.com/grafana/dashboards/10660) ou [2587](https://grafana.com/grafana/dashboards/2587)
+
+2. Rode o script de teste
+
+    ```bash
+    docker-compose up k6
+    ```
+
+3. (Opcional) Caso deseje ver os dados do influxdb num dashboard, rode o Chronograf
+
+    ```bash
+    docker-compose up -d chronograf
+    ```
+
 ## Calculando a quantidade de Vus
 
 > Nota: Agora temos opções de `scenarios` que deixam a gente controlar a quantidade de rps. O exemplo da próxima sessão apresentará como exemplo.
@@ -79,27 +103,3 @@ RPS = 1000
 
 VU = RPS * T / R = 1000 * 6 / 10 = 600
 ```
-
-## Integração com o Grafana
-
-A integração com o Grafana faz uso do InfluxDB, um banco de dados de séries de temporais (por enquanto, não é possível utilizar o Prometheus no lugar do influxdb).
-
-1. Rode o Grafana e o InfluxDB
-
-    ```bash
-    docker-compose up -d grafana influxdb
-    ```
-
-    > Para ver os dados em tempo real, é necessário configuração no Grafana. A própria [doc](https://k6.io/docs/results-visualization/influxdb-+-grafana/#preconfigured-grafana-dashboards) disponibiliza links para alguns dashboards já prontos. Teste com o dashboard [10660](https://grafana.com/grafana/dashboards/10660) ou [2587](https://grafana.com/grafana/dashboards/2587)
-
-2. Rode o script de teste
-
-    ```bash
-    docker-compose up k6
-    ```
-
-3. (Opcional) Caso deseje ver os dados do influxdb num dashboard, rode o Chronograf
-
-    ```bash
-    docker-compose up -d chronograf
-    ```
