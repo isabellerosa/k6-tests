@@ -5,9 +5,9 @@
 [K6](https://k6.io/docs/) uma ferramenta de teste carga gratuita e open-source. Desenvolvido para rodar testes de alta carga (spike, stress e soak) em ambientes de pré-produção e QA.
 Também oferece primitivos para monitoramento de testes.
 
-> Nota: Dentre as possibilidades de export dos resultados temos: CloudWatchm Kafka, Datadog, New Relic, além de json e csv e outros.
+> Nota: Dentre as possibilidades de export dos resultados temos: CloudWatch, Kafka, Datadog, New Relic, além de json e csv e outros.
 
-## Instalando e rodando o teste
+## Instalação
 
 Você pode instalar o k6 na sua máquina ou pode rodar utilizando uma imagem docker. Vide [instruções](https://k6.io/docs/getting-started/installation).
 
@@ -37,7 +37,7 @@ ou
 docker run -v "$(pwd)":/test -i loadimpact/k6 run /test/script.js
 ```
 
-## Integração com o Grafana
+## Rodando integração com o Grafana
 
 A integração com o Grafana faz uso do InfluxDB, um banco de dados de séries de temporais (por enquanto, não é possível utilizar o Prometheus no lugar do influxdb).
 
@@ -48,6 +48,8 @@ A integração com o Grafana faz uso do InfluxDB, um banco de dados de séries d
     ```
 
 2. Configure o datasource no Grafana em `Configuration > Data Sources > Add data source` com valores
+
+    > Nota: Ao acessar o Grafana ele te pedirá login e senha. Use qualquer credencial e depois dá um `skip` ;D
 
     ![Influx](assets/influx_config.png)
 
@@ -64,6 +66,8 @@ A integração com o Grafana faz uso do InfluxDB, um banco de dados de séries d
     ```bash
     docker-compose up -d chronograf
     ```
+
+6. Acompanhe o dashboard no Grafana!
 
 ## Calculando a quantidade de Vus
 
