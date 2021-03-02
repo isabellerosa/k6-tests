@@ -1,0 +1,47 @@
+version: '3'
+
+services:
+  grafana:
+    image: grafana/grafana
+    ports:
+      - 3000:3000
+    networks:
+      - net
+
+  influxdb:
+    image: influxdb:1.8
+    ports:
+      - 8086:8086
+    volumes:
+      - influxdb:/var/lib/influxdb
+    networks:
+      - net
+  
+  chronograf:
+    image: chronograf:alpine
+    ports:
+      - 8888:8888
+    volumes:
+      - chronograf:/var/lib/chronograf
+    networks:
+      - net
+    command: "--influxdb-url=http://load-tests_influxdb_1:8086"
+
+  k6:
+    image: loadimpact/k6
+    depends_on:
+      - influxdb
+      - grafana
+    volumes:
+      - ./:/test
+    networks:
+      - net
+    command: "run --out influxdb=http://load-tests_influxdb_1:8086/myk6db /test/script_ramping.js"
+
+
+volumes:
+  influxdb:
+  chronograf:
+
+networks:
+  net:

@@ -7,19 +7,15 @@ Também oferece primitivos para monitoramento de testes.
 
 > Nota: Dentre as possibilidades de export dos resultados temos: CloudWatchm Kafka, Datadog, New Relic, além de json e csv e outros.
 
-## Como criar o teste
-
-Primeiramente, é necessário criar o script (javascript) que será executado pela ferramenta.
-
-[Doc da API JavaScript do K6](https://k6.io/docs/javascript-api)
-
 ## Instalando e rodando o teste
 
 Você pode instalar o k6 na sua máquina ou pode rodar utilizando uma imagem docker. Vide [instruções](https://k6.io/docs/getting-started/installation).
 
 > As instruções seguintes consideram que estará utilizando docker para rodar os testes
 
-Como experimento, crie um arquivo simples:
+Os testes com K6 são escritos em JavaScript. Como experimento, crie um arquivo simples:
+
+[Doc da API JavaScript do K6](https://k6.io/docs/javascript-api)
 
 ```javascript
 // script.js
@@ -42,6 +38,8 @@ docker run -v "$(pwd)":/test -i loadimpact/k6 run /test/script.js
 ```
 
 ## Calculando a quantidade de Vus
+
+> Nota: Agora temos opções de `scenarios` que deixam a gente controlar a quantidade de rps. O exemplo da próxima sessão apresentará como exemplo.
 
 - [Cálcular RPS](https://k6.io/blog/ref-how-to-generate-a-constant-request-rate-in-k6)
 - [RPS constante](https://k6.io/blog/how-to-generate-a-constant-request-rate-with-the-new-scenarios-api)
@@ -84,8 +82,24 @@ VU = RPS * T / R = 1000 * 6 / 10 = 600
 
 ## Integração com o Grafana
 
-Rode o grafana
+A integração com o Grafana faz uso do InfluxDB, um banco de dados de séries de temporais (por enquanto, não é possível utilizar o Prometheus no lugar do influxdb).
 
-```bash
-docker run -d --name=grafana -p 3000:3000 grafana/grafana
-```
+1. Rode o Grafana e o InfluxDB
+
+    ```bash
+    docker-compose up -d grafana influxdb
+    ```
+
+    > Para ver os dados em tempo real, é necessário configuração no Grafana. A própria [doc](https://k6.io/docs/results-visualization/influxdb-+-grafana/#preconfigured-grafana-dashboards) disponibiliza links para alguns dashboards já prontos. Teste com o dashboard [10660](https://grafana.com/grafana/dashboards/10660) ou [2587](https://grafana.com/grafana/dashboards/2587)
+
+2. Rode o script de teste
+
+    ```bash
+    docker-compose up k6
+    ```
+
+3. (Opcional) Caso deseje ver os dados do influxdb num dashboard, rode o Chronograf
+
+    ```bash
+    docker-compose up -d chronograf
+    ```
