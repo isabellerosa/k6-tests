@@ -3,7 +3,7 @@ import http from 'k6/http';
 
 
 export default function () {
-    const res = http.get("https://")
+    const res = http.get("https://api.thecatapi.com/v1/images/search")
     
     check(res, {
       'status 200': (r) => r.status === 200,
@@ -11,11 +11,6 @@ export default function () {
 }
 
 
-//https://k6.io/docs/using-k6/scenarios/executors/ramping-arrival-rate
-/*
-When you want to maintain a constant number of requests without being affected by the 
-performance of the system under test.
-*/
 export let options = {
   scenarios: {
     test: {
