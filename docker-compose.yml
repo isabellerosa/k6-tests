@@ -36,7 +36,7 @@ services:
       - ./:/test
     networks:
       - net
-    command: "run --out influxdb=http://load-tests_influxdb_1:8086/myk6db /test/script_ramping.js"
+    command: "run --out influxdb=http://load-tests_influxdb_1:8086/myk6db /test/script_scenario_ramping_arrival_rate.js"
 
 
 volumes:
